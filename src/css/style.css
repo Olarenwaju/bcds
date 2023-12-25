@@ -6,3 +6,12 @@
 .hero-bg-img {
   background-image: url('../assets/hero-bg.png');
 }
+
+@font-face {
+  font-family: 'Poppins';
+  src: url('../assets/Poppins-Regular.ttf') format('truetype')
+}
+
+html {
+  font-family: 'Poppins';
+}
