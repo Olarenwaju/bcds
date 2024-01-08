@@ -245,7 +245,7 @@ const Diagnosis = () => {
 								</label>
 							</div>
 							<div className="my-5"><Button
-							content="Back"
+							content="Diagnosis"
 							textSize="text-[18px] mb-5"
 							maxWidth="max-w-[128px]"
 							minHeight="min-h-[51px]"
