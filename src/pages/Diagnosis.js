@@ -69,9 +69,6 @@ const Diagnosis = () => {
 
 		setTimeout(() => {
 			const { diagnosis, recommendations } = findDiagnosisAndRecommendations(selectedSymptoms);
-
-			console.log('Diagnosis: ', diagnosis)
-			console.log('Recommendations: ', recommendations)
 		
 			// Update state to display the result
 			setDiagnosisResult(diagnosis);
@@ -97,7 +94,7 @@ const Diagnosis = () => {
 		// Return diagnosis and recommendations if a match is found
 		return matchedSymptomSet
 		  ? { diagnosis: matchedSymptomSet.diagnosis, recommendations: matchedSymptomSet.recommendations }
-		  : { diagnosis: '', recommendations: [] };
+		  : { diagnosis: 'Incorect symptoms selected', recommendations: ['No recommendations found'] };
 	};
 
 
