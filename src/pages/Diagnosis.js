@@ -11,7 +11,77 @@ import arrow from "../assets/arrow-right.svg"
 
 const Diagnosis = () => {
 	const [selectedSymptoms, setSelectedSymptoms] = useState([]);
-	 const fileInputRef = useRef(null);
+  	const [diagnosisResult, setDiagnosisResult] = useState('');
+  	const [recommendationsResult, setRecommendationsResult] = useState('');
+
+	const symptomData = [
+		{
+		  symptoms: ['Lump or Mass', 'Nipple Change', 'Skin change'],
+		  diagnosis: 'Ductal Carcinoma In Situ (DCIS)',
+		  recommendations: ['- Lumpectomy (removal of the tumor)', '- Mastectomy (removal of the entire breast)'],
+		},
+		{
+		  symptoms: ['Thickening or swelling in breast', 'Skin chnages'],
+		  diagnosis: 'Invasive Ductal Carcinoma (IDC) ',
+		  recommendations: ['Surgery (lumpectomy or mastectomy)', 'Radiation therapy', 'Chemotherapy'],
+		},
+		{
+			symptoms: ['changes in breast appearance', 'Swelling', 'Breast Pain'],
+			diagnosis: 'Invasive Lobular Carcinoma (ILC)',
+			recommendations: ['Hormone therapy', 'Chemotherapy', 'Surgery (lumpectomy or mastectomy)'],
+		},
+		{
+			symptoms: ['Breast lump or mass', '- Skin changes (redness, dimpling)', 'Breast Pain'],
+			diagnosis: 'Triple-Negative Breast Cancer',
+			recommendations: ['Immunotherapy (in some cases)', 'Chemotherapy', 'Surgery (lumpectomy or mastectomy)'],
+		},
+		// Add more symptom data as needed
+	];
+	
+
+
+	const handleSymptomChange = (event) => {
+		const { value } = event.target;
+	
+		// Toggle the selected symptom
+		setSelectedSymptoms((prevSelected) =>
+		  prevSelected.includes(value)
+			? prevSelected.filter((s) => s !== value)
+			: [...prevSelected, value]
+		);
+	};
+
+	const handleDiagnosisButtonClick = () => {
+		// Logic to find diagnosis and recommendations based on selected symptoms
+		const { diagnosis, recommendations } = findDiagnosisAndRecommendations(selectedSymptoms);
+
+		console.log('Diagnosis: ', diagnosis)
+		console.log('Recommendations: ', recommendations)
+	
+		// Update state to display the result
+		setDiagnosisResult(diagnosis);
+		setRecommendationsResult(recommendations);
+	};
+
+	const findDiagnosisAndRecommendations = (selectedSymptoms) => {
+		
+	
+		// Convert selected symptoms to a set for easier comparison
+		const selectedSet = new Set(selectedSymptoms);
+	
+		// Find matching symptom set in symptomData
+		const matchedSymptomSet = symptomData.find((item) =>
+		  item.symptoms.every((symptom) => selectedSet.has(symptom))
+		);
+	
+		// Return diagnosis and recommendations if a match is found
+		return matchedSymptomSet
+		  ? { diagnosis: matchedSymptomSet.diagnosis, recommendations: matchedSymptomSet.recommendations }
+		  : { diagnosis: '', recommendations: [] };
+	};
+
+
+	const fileInputRef = useRef(null);
 
 		const handleHiddenInputClick = () => {
 			fileInputRef.current.click();
@@ -23,33 +93,11 @@ const Diagnosis = () => {
 			console.log(fileList);
 		};
 
-	const handleSymptomChange = (event) => {
-		const value = event.target.value;
-		const isChecked = event.target.checked;
-
-		if (isChecked) {
-			setSelectedSymptoms([...selectedSymptoms, value]);
-		} else {
-			setSelectedSymptoms(selectedSymptoms.filter((symptom) => symptom !== value));
-		}
-	};
-
-	const handleSubmit = (e) => {
-		e.preventDefault();
-	}
 
 	const ages = Array.from({ length: 43 }, (_, index) => `${index + 18}`);
 
-	const [diagnosis, setDiagnosis] = useState("");
-	const [recommendations, setRecommendations] = useState("");
 
-	const handleDiagnosisChange = (event) => {
-		setDiagnosis(event.target.value);
-	};
 
-	const handleRecommendationsChange = (event) => {
-		setRecommendations(event.target.value);
-	};
 	return (
 		<div className="font-primary">
 			<div
@@ -63,7 +111,7 @@ const Diagnosis = () => {
 					style={{ background: `url(${diagnosisBg})` }}>
 					<form
 						className="pt-7 pb-7"
-						onSubmit={handleSubmit}>
+						onSubmit={(e) => e.preventDefault()}>
 						<Button
 							content="Back"
 							textSize="text-[18px] my-7"
@@ -87,7 +135,47 @@ const Diagnosis = () => {
 						<div className="mt-7">
 							<label className="text-[#696A6F]">Symptoms:</label>
 							<div className="flex flex-col md:flex-row gap-4 md:gap-8 flex-wrap">
-								<div>
+
+							{symptomData.map((item, index) => (
+								<div key={index}>
+								{item.symptoms.map((symptom) => (
+									<div key={symptom}>
+									<label className="min-w-max text-black font-semibold">
+										<input
+										type="checkbox"
+										className="mr-2"
+										value={symptom}
+										checked={selectedSymptoms.includes(symptom)}
+										onChange={handleSymptomChange}
+										/>
+										{symptom}
+									</label>
+									</div>
+								))}
+								</div>
+							))}	
+
+								{/* {symptomData.map((item) => (
+									<div key={item.diagnosis}>
+
+										{item.symptoms.map((symptom) => (
+											<div key={symptom}>
+												<label className="min-w-max text-black fonr-semibold">
+													<input
+														type="checkbox"
+														className="mr-2"
+														value={symptom}
+														checked={selectedSymptoms.includes(symptom)}
+														onChange={handleSymptomChange}
+													/>
+													{symptom}
+												</label>
+											</div>
+										))}								
+									</div>							
+								))} */}
+
+								 {/* <div>
 									<label className="min-w-max text-black fonr-semibold">
 										<input
 											type="checkbox"
@@ -206,8 +294,10 @@ const Diagnosis = () => {
 											</label>
 										</div>
 									</label>
-								</div>
+								</div>  */}
+
 							</div>
+
 							<div className="mt-7">
 								<label className="text-[14px] text-[#696A6F]">
 									Mammogram (Optional)
@@ -244,12 +334,21 @@ const Diagnosis = () => {
 									maximum file size: 1MB
 								</label>
 							</div>
-							<div className="my-5"><Button
-							content="Diagnosis"
-							textSize="text-[18px] mb-5"
-							maxWidth="max-w-[128px]"
-							minHeight="min-h-[51px]"
-						/></div>
+
+							<div className="my-5">
+								<Button
+									onClick={handleDiagnosisButtonClick}
+									content="Diagnosis"
+									textSize="text-[18px] mb-5"
+									maxWidth="max-w-[128px]"
+									minHeight="min-h-[51px]"
+								/>
+
+								<button onClick={handleDiagnosisButtonClick}>
+									Diagnosis
+								</button>
+							</div>
+
 							<div className="mt-7">
 								<div className="mb-4">
 									<label
@@ -259,8 +358,7 @@ const Diagnosis = () => {
 									</label>
 									<textarea
 										id="diagnosis"
-										value={diagnosis}
-										onChange={handleDiagnosisChange}
+										value={diagnosisResult}
 										className="border border-gray-300 rounded-md w-full p-2 outline-none"
 										rows="5"
 									/>
@@ -274,8 +372,7 @@ const Diagnosis = () => {
 									</label>
 									<textarea
 										id="recommendations"
-										value={recommendations}
-										onChange={handleRecommendationsChange}
+										value={Array.isArray(recommendationsResult) ? recommendationsResult.join('\n') : recommendationsResult}								
 										className="border border-gray-300 rounded-md w-full p-2 outline-none"
 										rows="5"
 									/>
