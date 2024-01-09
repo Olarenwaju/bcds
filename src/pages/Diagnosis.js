@@ -13,6 +13,7 @@ const Diagnosis = () => {
 	const [selectedSymptoms, setSelectedSymptoms] = useState([]);
   	const [diagnosisResult, setDiagnosisResult] = useState('');
   	const [recommendationsResult, setRecommendationsResult] = useState('');
+	  const [loading, setLoading] = useState(false);
 
 	const symptomData = [
 		{
@@ -40,7 +41,13 @@ const Diagnosis = () => {
 			diagnosis: 'HER2-Positive Breast Cancer ',
 			recommendations: ['Targeted therapy (anti-HER2 drugs)', 'Chemotherapy', 'Surgery (lumpectomy or mastectomy)'],
 		},
-		// Add more symptom data as needed
+
+		{
+			symptoms: ['Breast Mass', 'Nipple changes (inversion or discharge)',],
+			diagnosis: 'Hormone Receptor-Positive Breast Cancer',
+			recommendations: ['Hormone therapy (tamoxifen, aromatase inhibitors)', 'Chemotherapy (in some cases)', 'Surgery (lumpectomy or mastectomy)'],
+		},
+		
 	];
 	
 
@@ -57,15 +64,23 @@ const Diagnosis = () => {
 	};
 
 	const handleDiagnosisButtonClick = () => {
+		setLoading(true);
 		// Logic to find diagnosis and recommendations based on selected symptoms
-		const { diagnosis, recommendations } = findDiagnosisAndRecommendations(selectedSymptoms);
 
-		console.log('Diagnosis: ', diagnosis)
-		console.log('Recommendations: ', recommendations)
-	
-		// Update state to display the result
-		setDiagnosisResult(diagnosis);
-		setRecommendationsResult(recommendations);
+		setTimeout(() => {
+			const { diagnosis, recommendations } = findDiagnosisAndRecommendations(selectedSymptoms);
+
+			console.log('Diagnosis: ', diagnosis)
+			console.log('Recommendations: ', recommendations)
+		
+			// Update state to display the result
+			setDiagnosisResult(diagnosis);
+			setRecommendationsResult(recommendations);
+
+			setLoading(false)
+		}, 2000)
+
+		
 	};
 
 	const findDiagnosisAndRecommendations = (selectedSymptoms) => {
@@ -160,147 +175,6 @@ const Diagnosis = () => {
 								</div>
 							))}	
 
-								{/* {symptomData.map((item) => (
-									<div key={item.diagnosis}>
-
-										{item.symptoms.map((symptom) => (
-											<div key={symptom}>
-												<label className="min-w-max text-black fonr-semibold">
-													<input
-														type="checkbox"
-														className="mr-2"
-														value={symptom}
-														checked={selectedSymptoms.includes(symptom)}
-														onChange={handleSymptomChange}
-													/>
-													{symptom}
-												</label>
-											</div>
-										))}								
-									</div>							
-								))} */}
-
-								 {/* <div>
-									<label className="min-w-max text-black fonr-semibold">
-										<input
-											type="checkbox"
-											className="mr-2"
-											value="lump_or_mass"
-											checked={selectedSymptoms.includes("lump_or_mass")}
-											onChange={handleSymptomChange}
-										/>
-										Lump or Mass
-									</label>
-								</div>
-
-								<div>
-									<label className="min-w-max text-black fonr-semibold">
-										<input
-											type="checkbox"
-											className="mr-2"
-											value="changes_in_size_or_shape"
-											checked={selectedSymptoms.includes("changes_in_size_or_shape")}
-											onChange={handleSymptomChange}
-										/>
-										Changes in Size or Shape
-									</label>
-								</div>
-
-								<div>
-									<label className="min-w-max text-black fonr-semibold">
-										<input
-											type="checkbox"
-											className="mr-2"
-											value="skin_changes"
-											checked={selectedSymptoms.includes("skin_changes")}
-											onChange={handleSymptomChange}
-										/>
-										Skin Changes
-										<div style={{ marginLeft: "20px", fontSize: "0.85em" }}>
-											<label className="text-[#696A6F] text-[14px]">
-												Redness, dimpling, or puckering
-											</label>
-										</div>
-									</label>
-								</div>
-
-								<div>
-									<label className="min-w-max text-black fonr-semibold">
-										<input
-											type="checkbox"
-											className="mr-2"
-											value="nipple_changes"
-											checked={selectedSymptoms.includes("nipple_changes")}
-											onChange={handleSymptomChange}
-										/>
-										Nipple Changes
-									</label>
-								</div>
-
-								<div>
-									<label className="min-w-max text-black fonr-semibold">
-										<input
-											type="checkbox"
-											className="mr-2"
-											value="discharge_other_than_breast_milk"
-											checked={selectedSymptoms.includes(
-												"discharge_other_than_breast_milk",
-											)}
-											onChange={handleSymptomChange}
-										/>
-										Discharge other than breast milk
-									</label>
-								</div>
-
-								<div>
-									<label className="min-w-max text-black fonr-semibold">
-										<input
-											type="checkbox"
-											className="mr-2"
-											value="pain_or_discomfort"
-											checked={selectedSymptoms.includes("pain_or_discomfort")}
-											onChange={handleSymptomChange}
-										/>
-										Pain or Discomfort
-										<div style={{ marginLeft: "20px", fontSize: "0.85em" }}>
-											<label className="text-[#696A6F] text-[14px]">
-												Unexplained tenderness or pain
-											</label>
-										</div>
-									</label>
-								</div>
-
-								<div>
-									<label className="min-w-max text-black fonr-semibold">
-										<input
-											type="checkbox"
-											className="mr-2"
-											value="skin_colour_changes"
-											checked={selectedSymptoms.includes("skin_colour_changes")}
-											onChange={handleSymptomChange}
-										/>
-										Skin Colour Changes
-									</label>
-								</div>
-
-								<div>
-									<label className="min-w-max text-black fonr-semibold">
-										<input
-											type="checkbox"
-											className="mr-2"
-											value="swelling"
-											checked={selectedSymptoms.includes("swelling")}
-											onChange={handleSymptomChange}
-										/>
-										Swelling
-										<div style={{ marginLeft: "20px", fontSize: "0.85em" }}>
-											<label className="text-[#696A6F] text-[14px]">
-												Distortion or swelling in part of the breast
-											</label>
-										</div>
-									</label>
-								</div>  */}
-
 							</div>
 
 							<div className="mt-7">
@@ -344,8 +218,13 @@ const Diagnosis = () => {
 								<button 
 									className=" p-3 text-[20px]  mb-5 bg-[#ED0566D9] hover:bg-[#ED0566D9]/95 text-white transition-all rounded-[16px]" 
 									onClick={handleDiagnosisButtonClick}
+									disabled={loading} // Disable the button while loading
 								>
-									Diagnosis
+									{loading ? (
+										<span className="loading loading-infinity loading-lg"></span>
+										) : (
+										'Diagnosis'
+									)}
 								</button>
 							</div>
 
