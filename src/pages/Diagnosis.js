@@ -26,7 +26,7 @@ const Diagnosis = () => {
 		  recommendations: ['Surgery (lumpectomy or mastectomy)', 'Radiation therapy', 'Chemotherapy'],
 		},
 		{
-			symptoms: ['changes in breast appearance', 'Swelling', 'Breast Pain'],
+			symptoms: ['changes in breast appearance', 'Swelling',],
 			diagnosis: 'Invasive Lobular Carcinoma (ILC)',
 			recommendations: ['Hormone therapy', 'Chemotherapy', 'Surgery (lumpectomy or mastectomy)'],
 		},
@@ -34,6 +34,11 @@ const Diagnosis = () => {
 			symptoms: ['Breast lump or mass', '- Skin changes (redness, dimpling)', 'Breast Pain'],
 			diagnosis: 'Triple-Negative Breast Cancer',
 			recommendations: ['Immunotherapy (in some cases)', 'Chemotherapy', 'Surgery (lumpectomy or mastectomy)'],
+		},
+		{
+			symptoms: ['Breast lump', 'Breast Mass', 'Skin colour changes (redness, dimpling)',],
+			diagnosis: 'HER2-Positive Breast Cancer ',
+			recommendations: ['Targeted therapy (anti-HER2 drugs)', 'Chemotherapy', 'Surgery (lumpectomy or mastectomy)'],
 		},
 		// Add more symptom data as needed
 	];
@@ -336,15 +341,10 @@ const Diagnosis = () => {
 							</div>
 
 							<div className="my-5">
-								<Button
+								<button 
+									className=" p-3 text-[20px]  mb-5 bg-[#ED0566D9] hover:bg-[#ED0566D9]/95 text-white transition-all rounded-[16px]" 
 									onClick={handleDiagnosisButtonClick}
-									content="Diagnosis"
-									textSize="text-[18px] mb-5"
-									maxWidth="max-w-[128px]"
-									minHeight="min-h-[51px]"
-								/>
-
-								<button onClick={handleDiagnosisButtonClick}>
+								>
 									Diagnosis
 								</button>
 							</div>
@@ -359,7 +359,7 @@ const Diagnosis = () => {
 									<textarea
 										id="diagnosis"
 										value={diagnosisResult}
-										className="border border-gray-300 rounded-md w-full p-2 outline-none"
+										className="border border-gray-300 rounded-md w-full p-2 outline-none text-lg font-semibold"
 										rows="5"
 									/>
 								</div>
