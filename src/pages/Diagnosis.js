@@ -43,7 +43,7 @@ const Diagnosis = () => {
 		},
 
 		{
-			symptoms: ['Breast Mass', 'Nipple changes (inversion or discharge)',],
+			symptoms: ['Breast Mass and Lump', 'Nipple changes (inversion or discharge)',],
 			diagnosis: 'Hormone Receptor-Positive Breast Cancer',
 			recommendations: ['Hormone therapy (tamoxifen, aromatase inhibitors)', 'Chemotherapy (in some cases)', 'Surgery (lumpectomy or mastectomy)'],
 		},
